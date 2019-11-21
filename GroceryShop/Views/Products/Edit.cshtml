@@ -2,15 +2,16 @@
 
 @{
     ViewBag.Title = "Edit";
+    var imageURL = !string.IsNullOrEmpty(Model.ImageURL) ? Model.ImageURL : "/Content/images/system/placeholder-image.png";
+
 }
 
 <h2>Edit</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editProduct" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
@@ -56,6 +57,12 @@
                 @Html.ValidationMessageFor(model => model.stock, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Image</label>
+            <input type="hidden" id="ImageURL" name="ImageURL" />
+            <img class="img-thumbnail img-fluid" id="productImage" src="@imageURL"  width="100px" height="100px"/>
+            <input required class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg, .jpeg" />
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -67,7 +74,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                @*<input type="submit" value="Save" class="btn btn-default" />*@
+                <button id="saveBtn" class="btn btn-default">Save</button>
             </div>
         </div>
     </div>
@@ -76,7 +84,55 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script>
+      $("#imageUpload").change(function () {
+		var element = this;
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+		var formData = new FormData();
+
+		var totalFiles = element.files.length;
+
+		for (var i = 0; i < totalFiles; i++) {
+			var file = element.files[i];
+			formData.append("Photo", file);
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("UploadImage", "Shared")',
+			dataType: 'json',
+			data: formData,
+			contentType: false,
+			processData: false
+		})
+        .done(function (response) {
+        	console.log(response);
+
+        	if (response.Success) {
+        		$("#ImageURL").val(response.ImageURL);
+        		$("#productImage").attr("src", response.ImageURL);
+        	}
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+	});
+    $("#saveBtn").click(function () {
+
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("Edit", "Products")',
+                data: $("#editProduct").serialize()
+            })
+            .done(function (response) {
+                $("#tableContiner").html(response);
+                $("#actionContainer").html("");
+                focusAction("tableContiner");
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+                });
+    });
+
+
+</script>

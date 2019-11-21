@@ -19,6 +19,15 @@ namespace GroceryShop.Controllers
         {
             return View(db.Products.ToList());
         }
+        public ActionResult ProductTable(string search)
+        {
+            var products = db.Products.ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p =>p.Name!=null && p.Name.ToLower().Contains(search.ToLower())).ToList();
+            }
+            return PartialView(products);
+        }
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
@@ -38,15 +47,15 @@ namespace GroceryShop.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,OriginalPrice,SellingPrice,stock,Tags")] Product product)
+        
+        public ActionResult Create([Bind(Include = "ID,Name,Description,OriginalPrice,SellingPrice,stock,ImageURL,Tags")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -70,15 +79,14 @@ namespace GroceryShop.Controllers
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return PartialView(product);
         }
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,OriginalPrice,SellingPrice,stock,Tags")] Product product)
+        public ActionResult Edit([Bind(Include = "ID,Name,Description,OriginalPrice,SellingPrice,stock,ImageURL,Tags")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +94,7 @@ namespace GroceryShop.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(product);
+            return PartialView(product);
         }
 
         // GET: Products/Delete/5
