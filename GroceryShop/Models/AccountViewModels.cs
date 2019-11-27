@@ -25,7 +25,24 @@ namespace GroceryShop.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-       
+        [StringLength(100, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Address1")]
+        public string Address1 { get; set; }
+
+        [StringLength(100, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Address2")]
+        public string Address2 { get; set; }
+
+        [StringLength(30, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [StringLength(30, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Zip Code")]
+        public string ZipCode { get; set; }
+
+
+
     }
 
     public class ExternalLoginListViewModel
@@ -93,6 +110,8 @@ namespace GroceryShop.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -102,6 +121,22 @@ namespace GroceryShop.Models
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [StringLength(100, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Address1")]
+        public string Address1 { get; set; }
+
+        [StringLength(100, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Address2")]
+        public string Address2 { get; set; }
+
+        [StringLength(30, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [StringLength(30, ErrorMessage = "Required", MinimumLength = 1)]
+        [Display(Name = "Zip Code")]
+        public string ZipCode { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

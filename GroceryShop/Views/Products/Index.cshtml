@@ -1,23 +1,220 @@
-﻿
+﻿@model IEnumerable<GroceryShop.Models.Product>
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div id="tableContainer">
-    @{
-        Html.RenderAction("ProductTable");
 
+@*<div class="container">
+    <form method="post">
+        <div class="input-group mb-3">
+            <input class="form-control" id="searchTxt" name="Search" placeholder="Search Product" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="searchBtn">Search</button>
+                <button class="btn btn-primary" id="resetBtn">Reset</button>
+            </div>
+        </div>*@
+@*<input class="form-control" id="searchTxt" name="Search" />
+    <button class="btn btn-primary form-control" id="searchBtn">Search</button>
+    <button class="btn btn-primary form-control"  id="resetBtn">Reset</button>*@
 
-    }
+@*</form>
 
+    </div>*@
+
+<label>
+    @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-primary ml-4"})
+    @*<button id="newBtn">Create New</button>*@
+</label>
+
+<div class="card mb-3">
+    @*<div class="card-header">
+        <i class="fas fa-table"></i>
+Products
+    </div>*@
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OriginalPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SellingPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImageURL)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tags)
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr>
+                            <td>
+                                No Product Found!
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+
+                <tr>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OriginalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SellingPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stock)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.ImageURL)*@
+                        <img width="100px" height="100px" src="@item.ImageURL" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tags)
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary btn-block mb-1" })
+
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary btn-block mb-1" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-primary btn-block mb-1" })
+                        @*<button class="editBtn" data-id="@item.ID">Edit</button>*@
+                        @*<input type="button" title="Delete" value="Details" onclick="location.href='@Url.Action("Details", "Products", new { id = item.ID })'" />*@
+
+                        @*<button class="deleteBtn" data-id="@item.ID">Delete</button>*@
+                    </td>
+                </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div id="actionContainer">
 
 
-</div>
+<script>
 
-<script>function focusAction(controlToFocus) {
-		$('html, body').animate({
-			scrollTop: $("#" + controlToFocus).offset().top - 100
-		}, 1000);
-	}</script>
+    $("#searchBtn").click(function () {
+       
+		var searchValue = $("#searchTxt").val();
+
+		$.ajax({
+			url: '@Url.Action("Index", "Products")',
+			data: {
+				search: searchValue
+			}
+		})
+        .done(function (response) {
+
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+    });
+
+    $("#resetBtn").click(function () {
+
+		var searchValue = '';
+
+		$.ajax({
+			url: '@Url.Action("ProductTable", "Products")',
+			data: {
+				search: searchValue
+			}
+		})
+        .done(function (response) {
+        	$("#tableContiner").html(response);
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+	});
+
+	@*$("#newBtn").click(function () {
+		$.ajax({
+			url: '@Url.Action("Create", "Products")',
+		})
+        .done(function (response) {
+        	$("#actionContainer").html(response);
+
+        	focusAction("actionContainer");
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+    });
+
+    $(".editBtn").click(function () {
+		$.ajax({
+            url: '@Url.Action("Edit", "Products")',
+            data: {
+                id: $(this).attr('data-id')
+			}
+		})
+        .done(function (response) {
+        	$("#actionContainer").html(response);
+
+        	focusAction("actionContainer");
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+    });
+
+
+     $(".deleteBtn").click(function () {
+		$.ajax({
+            url:'@Url.Action("Delete", "Products")',
+            data: {
+                id: $(this).attr('data-id')
+			}
+		})
+        .done(function (response) {
+        	$("#actionContainer").html(response);
+
+        	focusAction("actionContainer");
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert("FAIL");
+        });
+	});*@
+</script>

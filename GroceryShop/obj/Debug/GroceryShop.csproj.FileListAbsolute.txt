@@ -208,5 +208,14 @@ D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.csprojAssemblyReference.cache
 D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.csproj.CopyComplete
 D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.dll
 D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.pdb
+D:\GroceryShop\GroceryShop\bin\PagedList.dll
+D:\GroceryShop\GroceryShop\bin\PagedList.Mvc.dll
+D:\GroceryShop\GroceryShop\bin\PagedList.xml
+D:\GroceryShop\GroceryShop\bin\PagedList.Mvc.xml
 D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.init.resources
 D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.csproj.GenerateResource.cache
+D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.PhoneNumberaddedtoOrder.resources
+D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.asdfghjkl.resources
+D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.qwerty.resources
+D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.zxcvbnm.resources
+D:\GroceryShop\GroceryShop\obj\Debug\GroceryShop.Migrations.zxcvbnm1.resources

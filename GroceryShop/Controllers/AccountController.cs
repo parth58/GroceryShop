@@ -153,7 +153,7 @@ namespace GroceryShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber,FirstName=model.FirstName,LastName=model.LastName};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber,FirstName=model.FirstName,LastName=model.LastName,Address1=model.Address1,Address2=model.Address2,City=model.City,ZipCode=model.ZipCode};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -394,7 +394,7 @@ namespace GroceryShop.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser {  UserName = model.Email, Email = model.Email,PhoneNumber = model.PhoneNumber, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new ApplicationUser {  UserName = model.Email, Email = model.Email,PhoneNumber = model.PhoneNumber, FirstName = model.FirstName, LastName = model.LastName, Address1 = model.Address1, Address2 = model.Address2, City = model.City, ZipCode = model.ZipCode };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -7,19 +7,36 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GroceryShop.Models;
-
+using GroceryShop.Services;
 namespace GroceryShop.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class CategoryController : Controller
     {
-        private GSContext db = new GSContext();
+        private GSDBContext db = new GSDBContext();
 
         // GET: Category
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            return View(db.Categories.ToList());
+            var categories = db.Categories.ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                categories = categories.Where(c => c.Name != null && c.Name.ToLower().Contains(search.ToLower())).ToList();
+            }
+            return View(categories);
+            
         }
 
+        public ActionResult CategoryTable(string search)
+        {
+            var categories = db.Categories.ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                categories = categories.Where(c => c.Name != null && c.Name.ToLower().Contains(search.ToLower())).ToList();
+            }
+            return View(categories);
+        }
         // GET: Category/Details/5
         public ActionResult Details(int? id)
         {
@@ -46,12 +63,12 @@ namespace GroceryShop.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description")] Category category)
+        public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
-                db.SaveChanges();
+                CategoryService c = new CategoryService();
+                    c.SaveCategory(category);
                 return RedirectToAction("Index");
             }
 
@@ -109,6 +126,8 @@ namespace GroceryShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //db.Categories.RemoveRange(db.Categories.ToList());
+
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();

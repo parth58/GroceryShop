@@ -1781,7 +1781,9 @@
 .product-detail .product-quantity > div {
 	display: inline-block;
 }
-
+    .product-detail .inlineBox> div {
+        display: inline;
+    }
 .product-detail .quantity input {
 	width: 68px;
 	height: 45px;
@@ -1951,7 +1953,7 @@
 /* Flat star
 ---------------------------------------------------------------*/
 .flat-star i { 
-	color: #fbaf5d; 
+	color: red; 
 }
 
 .flat-star span {
@@ -1962,7 +1964,11 @@
 .flat-star.style-1 i { 
 	letter-spacing: -1.3px;
 }
-
+/* Style x */
+.flat-star.style-x i {
+    letter-spacing: -1.3px;
+    font-size:20px;
+}
 .flat-star.style-1 span {
 	padding-left: 5px;
 }

@@ -87,10 +87,7 @@ namespace GroceryShop
             return manager;
         }
 
-        internal ApplicationUser FindById(object userID)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 
     // Configure the application sign-in manager which is used in this application.
