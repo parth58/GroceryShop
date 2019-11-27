@@ -59,16 +59,16 @@
                     <div class="mobile-button"><span></span></div>
                     <ul class="menu-extra">
                         @*<li class="box-search">
-            <a class="icon_search header-search-icon" href="#"></a>
-            <form role="search" method="get" class="header-search-form" action="#">
-                <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
-                <button type="submit" class="header-search-submit" title="Search">Search</button>
-            </form>
-        </li>*@
+                                <a class="icon_search header-search-icon" href="#"></a>
+                                <form role="search" method="get" class="header-search-form" action="#">
+                                    <input type="text" value="" name="s" class="header-search-field" placeholder="Search...">
+                                    <button type="submit" class="header-search-submit" title="Search">Search</button>
+                                </form>
+                            </li>*@
 
                         @Html.Partial("_LoginPartial")
 
-                        
+
                         <li class="box-cart nav-top-cart-wrapper">
                             @{
                                 var count = 0;
@@ -83,7 +83,7 @@
                             }
                             <a class="icon_cart nav-cart-trigger active" href="@Url.Action("Cart", "Home")"><span id="cartProductsCount">@count</span></a>
 
-                          
+
                         </li>
                     </ul><!-- /.menu-extra -->
                     <div class="nav-wrap">
@@ -174,7 +174,7 @@
                                 <li><a href="@Url.Action("Login", "Account")">Login/ Register</a></li>
                                 <li><a href="@Url.Action("Cart", "Home")">Your Cart</a></li>
                                 <li><a href="@Url.Action("MyOrders", "Home")">Your checkout</a></li>
-                               
+
                             </ul>
                         </div><!-- /.widget -->
                     </div><!-- /.col-md-3 -->
@@ -194,9 +194,9 @@
                                 <a href="index.html"><img src="~/Content/images/logo@2x.png" alt="image" width="107" height="24"></a>
                             </div>
                             <ul class="flat-contact">
-                                <li class="address">112 Kingdom, NA 12, New York</li>
-                                <li class="phone">+12 345 678 910</li>
-                                <li class="email">infor.deercreative@gmail.com</li>
+                                <li class="address">304 ,Aster Blossam Aura College Road ,Nadiad</li>
+                                <li class="phone">+91 9727254298</li>
+                                <li class="email">parthpatel@gmail.com</li>
                             </ul><!-- /.flat-contact -->
                         </div><!-- /.widget -->
                     </div><!-- /.col-md-3 -->
@@ -256,7 +256,9 @@
     <script src="~/Content/rev-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
     <script src="~/Content/rev-slider/js/extensions/revolution.extension.video.min.js"></script>
 
-
     @RenderSection("scripts", required: false)
+
+
+  
 </body>
 </html>
