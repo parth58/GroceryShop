@@ -77,7 +77,7 @@ namespace GroceryShop.Controllers
                 newProduct.OriginalPrice = model.OriginalPrice;
                 newProduct.SellingPrice = model.SellingPrice;
                 newProduct.stock = model.stock;
-                
+                newProduct.Tags = model.Tags;
                 newProduct.Category = db.Categories.Find(model.CategoryID);
              
                 newProduct.ImageURL = model.ImageURL;

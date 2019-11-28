@@ -19,7 +19,7 @@ namespace GroceryShop.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Messages.OrderBy(x => x.CreatedOn).ToList());
+            return View(db.Messages.OrderByDescending(x => x.CreatedOn).ToList());
         }
 
         // GET: Messages/Details/5

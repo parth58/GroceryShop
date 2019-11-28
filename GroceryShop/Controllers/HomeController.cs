@@ -48,26 +48,84 @@ namespace GroceryShop.Controllers
 
 
         private GSDBContext db = new GSDBContext();
-        public ActionResult Index(string search, int? categoryID=null, int? sortBy = 0, int? minimumPrice=0, int? maximumPrice=null, int? page=null)
+        public ActionResult Index(string search, int? reset, int? categoryID=null, int? sortBy = 0, int? minimumPrice=0, int? maximumPrice=null, int? page=null)
         {
+            if (TempData["products"] != null)
+            {
+
+                ViewBag.products = TempData["products"];
+            }
+          
+            else
+            {
+                ViewBag.products = db.Products.ToList(); 
+            }
             ViewBag.Categories = db.Categories.ToList();
             ViewBag.MinimumPrice = 0;
+            ViewBag.MaximumPrice = (int)(db.Products.Max(x => x.SellingPrice));
+
+            if (reset == 1)
+            {
+                
+                ShopViewModel model1 = new ShopViewModel();
+                model1.Search = search;
+                model1.CategoryID = categoryID;
+                model1.MinimumPrice = ViewBag.MinimumPrice;
+                model1.MaximumPrice = (int)(db.Products.Max(x => x.SellingPrice));
+                model1.SortBy = sortBy;
+                ViewBag.products = db.Products.ToList();
+                return View(model1);
+            }
+           
+           
             if (minimumPrice.HasValue)
             {
                 ViewBag.MinimumPrice = minimumPrice;
             }
-            ViewBag.MaximumPrice = (int)(db.Products.Max(x => x.SellingPrice));
             if (maximumPrice.HasValue)
             {
                 ViewBag.MaximumPrice = maximumPrice;
             }
             ShopViewModel model = new ShopViewModel();
 
-            model.Search = search;
-            model.CategoryID = categoryID;
-            model.MinimumPrice = ViewBag.MinimumPrice;
-            model.MaximumPrice = (int)(db.Products.Max(x => x.SellingPrice));
-            model.SortBy = sortBy;
+            if (TempData["search"] != null)
+            {
+                model.Search = (string)TempData["search"];
+            }
+            else
+            {
+                model.Search = search;
+            }
+
+            if (TempData["categoryID"] != null)
+            {
+                model.CategoryID=(int)TempData["categoryID"];
+            }
+            else
+            {
+                model.CategoryID = categoryID;
+            }
+           
+                model.MaximumPrice = (int)(db.Products.Max(x => x.SellingPrice));
+           
+            if (TempData["MinimumPrice"] != null)
+            {
+                model.MinimumPrice= (int)TempData["MinimumPrice"];
+            }
+            else
+            {
+                model.MinimumPrice = ViewBag.MinimumPrice;
+            }
+
+            if (TempData["search"] != null)
+            {
+                model.SortBy =(int) TempData["SortBy"];
+            }
+            else
+            {
+                model.SortBy = sortBy;
+            }
+
             return View(model);
         }
       
@@ -85,52 +143,66 @@ namespace GroceryShop.Controllers
             return View(product);
         }
 
-        public ActionResult Products(string search, int? categoryID, int? page, int? minimumPrice, int? maximumPrice, int? sortBy)
+        public ActionResult Products(string search, int? categoryID, int? page, int? minimumPrice, int? maximumPrice, int? sortBy,List<Product> products=null)
         {
 
             ViewBag.Search = search;
             ViewBag.CategoryID = categoryID;
             ViewBag.SortBy = sortBy;
-             
-            var products = db.Products.ToList();
-
-            if (categoryID.HasValue)
+            if (products == null)
             {
-                products = products.Where(x => x.Category.ID == categoryID.Value).ToList();
-            }
+                products = db.Products.ToList();
+            } 
+          
+
+           
+           
 
             if (!string.IsNullOrEmpty(search))
             {
                 products = products.Where(p => p.Category.Name.ToLower().Contains(search.ToLower()) || p.Name.ToLower().Contains(search.ToLower())).ToList();
             }
-
-            if (minimumPrice.HasValue)
+            else
             {
-                products = products.Where(x => x.SellingPrice >= minimumPrice.Value).ToList();
-            }
-
-            if (maximumPrice.HasValue)
-            {
-                products = products.Where(x => x.SellingPrice <= maximumPrice.Value).ToList();
-            }
-
-            if (sortBy.HasValue)
-            {
-                switch (sortBy.Value)
+                if (categoryID.HasValue)
                 {
-                    case 2:
-                        products = products.OrderByDescending(x => x.ID).ToList();
-                        break;
-                    case 3:
-                        products = products.OrderBy(x => x.SellingPrice).ToList();
-                        break;
-                    case 4:
-                        products = products.OrderByDescending(x => x.SellingPrice).ToList();
-                        break;
-                    default:
-                        break;
+                    products = products.Where(x => x.Category.ID == categoryID.Value).ToList();
+                }
+
+                if (minimumPrice.HasValue)
+                {
+                    products = products.Where(x => x.SellingPrice >= minimumPrice.Value).ToList();
+                }
+
+                if (maximumPrice.HasValue)
+                {
+                    products = products.Where(x => x.SellingPrice <= maximumPrice.Value).ToList();
+                }
+
+                if (sortBy.HasValue)
+                {
+                    switch (sortBy.Value)
+                    {
+                        case 2:
+                            products = products.OrderByDescending(x => x.ID).ToList();
+                            break;
+                        case 3:
+                            products = products.OrderBy(x => x.SellingPrice).ToList();
+                            break;
+                        case 4:
+                            products = products.OrderByDescending(x => x.SellingPrice).ToList();
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            TempData["products"] = products;
+            TempData["search"] = search; 
+            TempData["SortBy"] = sortBy;
+            TempData["MinimumPrice"] = minimumPrice;
+           
+            TempData["categoryID"] =categoryID;
             IPagedList<Product> pr = products.ToPagedList(page ?? 1, 12);
                
 
@@ -209,6 +281,8 @@ namespace GroceryShop.Controllers
                         OrderItem orderItem = new OrderItem();
                         orderItem.Quantity = item.Quantity;
                         orderItem.ProductID = item.Product.ID;
+                        Product p = db.Products.Find(item.Product.ID);
+                        p.stock=p.stock- item.Quantity;
                         orderitems.Add(orderItem);
                        
                     }

@@ -1,61 +1,63 @@
 ﻿@model GroceryShop.Models.Message
 
 @{
+    ViewBag.Title = "Delete Message";
+}
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-    <div class="container">
-        <h3>Are you sure you want to delete this?</h3>
-        <div>
-            <h4>Message</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
+<div class="container">
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Message</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Email)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Email)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Subject)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Subject)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Subject)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Subject)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Text)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Text)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Text)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Text)
+            </dd>
 
-            </dl>
+        </dl>
 
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            @*<input type="submit" value="Delete" class="btn btn-primary" />*@
-            <button  class="btn btn-primary deleteMsgBtn" data-id="@Model.ID">Delete</button>
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary ml-1" })
-        </div>
-            }
-        </div>
-
+            <div class="form-actions no-color">
+                @*<input type="submit" value="Delete" class="btn btn-primary" />*@
+                <button class="btn btn-primary deleteMsgBtn" data-id="@Model.ID">Delete</button>
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary ml-1" })
+            </div>
+        }
     </div>
+
+</div>
 
 <script>
     $(".deleteMsgBtn").click(function () {
@@ -89,6 +91,6 @@
 			}
         });
         });
-        
+
 
 </script>

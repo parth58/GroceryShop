@@ -2,7 +2,7 @@
 @using PagedList;
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Online Grocery Shopping";
 }
 <!-- IMAGE BOX -->
 <div class="flat-row no-padding">
@@ -17,9 +17,9 @@
                                 <div class="thumb">
                                     <img src="~/Content/images/parallax/bg-parallax3.jpg" alt="Image">
                                     <div class="text-wrap">
-                                        <p class="sub-title">Fall - Winter</p>
-                                        <h2 class="title text-accent">New Collections</h2>
-                                        <a href="#" class="themesflat-button bg-accent has-padding-36">SHOP NOW</a>
+                                        <p class="sub-title">Welcome To</p>
+                                        <h2 class="title text-accent">Fresh Mart</h2>
+                                        <span class="themesflat-button bg-accent has-padding-36 shopnow">SHOP NOW</span>
                                     </div>
                                 </div>
                             </div>
@@ -29,9 +29,9 @@
                                 <div class="thumb">
                                     <img src="~/Content/images/parallax/bg-parallax3.jpg" alt="Image">
                                     <div class="text-wrap">
-                                        <p class="sub-title">Fall - Winter</p>
-                                        <h2 class="title text-accent">New Collections</h2>
-                                        <a href="#" class="themesflat-button bg-accent has-padding-36">SHOP NOW</a>
+                                        <p class="sub-title">Winter Sale</p>
+                                        <h2 class="title text-accent">New Products</h2>
+                                        <span class="themesflat-button bg-accent has-padding-36 shopnow">SHOP NOW</span>
                                     </div>
                                 </div>
                             </div>
@@ -41,13 +41,14 @@
                                 <div class="thumb">
                                     <img src="~/Content/images/parallax/bg-parallax3.jpg" alt="Image">
                                     <div class="text-wrap">
-                                        <p class="sub-title">Fall - Winter</p>
-                                        <h2 class="title text-accent">New Collections</h2>
-                                        <a href="#" class="themesflat-button bg-accent has-padding-36">SHOP NOW</a>
+                                        <p class="sub-title">Christmas Offers</p>
+                                        <h2 class="title text-accent">Get Upto 30% Off</h2>
+                                        <span class="themesflat-button bg-accent has-padding-36 shopnow">SHOP NOW</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div><!-- /.owl-carousel -->
                 </div><!-- /.flat-image-box -->
             </div><!-- /.col-md-12 -->
@@ -73,14 +74,11 @@
 
                     <div class="widget widget_tag">
                         <h5 class="widget-title">
-                            <a href="@Url.Action("Index", "Home")" class="themesflat-button bg-accent" style="font-weight:500!important;">Reset Filters</a>
-
-
-
+                            <a href="@Url.Action("Index", "Home",new { reset = 1 })" class="themesflat-button bg-accent" style="font-weight:500!important;">Reset Filters</a>
 
                         </h5>
 
-                    </div><!-- /.widget -->
+                    </div>
 
                     <div class="widget widget-sort-by">
                         <h5 class="widget-title">
@@ -88,8 +86,8 @@
                         </h5>
                         <ul>
                             <li><a data-href="@Url.Action("Products", "Home", new { sortBy = 1, categoryID = Model.CategoryID })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value ==1 ? "active" : string.Empty : string.Empty)">Default - Newest</a></li>
-                            <li><a data-href="@Url.Action("Products", "Home", new { sortBy = 2, categoryID = Model.CategoryID  })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value ==2 ? "active" : string.Empty : string.Empty)">Popularity</a></li>
-                            <li><a data-href="@Url.Action("Products", "Home", new { sortBy =3, categoryID = Model.CategoryID  })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value == 3 ? "active" : string.Empty : string.Empty)">Price: low to high</a></li>
+                            <li><a data-href="@Url.Action("Products", "Home", new { sortBy = 2, categoryID = Model.CategoryID })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value ==2 ? "active" : string.Empty : string.Empty)">Popularity</a></li>
+                            <li><a data-href="@Url.Action("Products", "Home", new { sortBy =3, categoryID = Model.CategoryID })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value == 3 ? "active" : string.Empty : string.Empty)">Price: low to high</a></li>
                             <li><a data-href="@Url.Action("Products", "Home",new { sortBy =4, categoryID = Model.CategoryID  })" class="dataLink @(Model.SortBy.HasValue ? Model.SortBy.Value == 4 ? "active" : string.Empty : string.Empty)">Price: high to low</a></li>
                         </ul>
                     </div><!-- /.widget-sort-by -->
@@ -130,7 +128,8 @@
                            categoryId = Model.CategoryID,
                            minimumPrice = ViewBag.MinimumPrice,
                            maximumPrice = ViewBag.MaximumPrice,
-                           sortBy = Model.SortBy
+                           sortBy = Model.SortBy,
+                           products=ViewBag.products
                        });
                 }
             </div><!-- /.col-md-9 -->
@@ -279,7 +278,9 @@
 		});
 		console.log("getdata out");
     });
-
+       $(".shopnow").click(function () {
+        focusAction("productsDiv");
+    });
     function focusAction(controlToFocus) {
 		$('html, body').animate({
 			scrollTop: $("#" + controlToFocus).offset().top - 100

@@ -20,34 +20,44 @@
         {
             foreach (var item in Model)
             {
-                <li class="product-item">
-                    <div class="product-thumb clearfix">
+        <li class="product-item">
+            <div class="product-thumb clearfix">
+                @if (item.stock<=0)
+                {
+                <span class="new sale" style="z-index:10;">&nbsp;Out Of Stock </span>
+                }
+                
 
-                        <a href="@Url.Action("Details", "Home", new { ID = item.ID })" class="product-thumb">
-                            <img src="@item.ImageURL" alt="image" style="height:150px">
-                        </a>
+                <a href="@Url.Action("Details", "Home", new { ID = item.ID })" class="product-thumb">
+                    <img src="@item.ImageURL" alt="image" style="height:150px">
+
+                </a>
 
 
 
-                    </div>
-                    <div class="product-info clearfix">
-                        <span class="product-title">@Html.DisplayFor(modelItem => item.Name)</span>
-                        <div class="price">
-                            <del>
-                                <span class="regular">$@Html.DisplayFor(modelItem => item.OriginalPrice)</span>
-                            </del>
-                            <ins>
-                                <span class="amount">$@Html.DisplayFor(modelItem => item.SellingPrice)</span>
-                            </ins>
-                        </div>
-                    </div>
-                    <div class="add-to-cart text-center">
-                        <a data-id="@item.ID" class="addTocartBtn">ADD TO CART</a>
-                        @*<a href="@Url.Action("AddToCart", "Home", new { productId = item.ID, url = "Index" })">ADD TO CART </a>*@
+            </div>
+            <div class="product-info clearfix">
+                <span class="product-title">@Html.DisplayFor(modelItem => item.Name)</span>
+                <div class="price">
+                    <del>
+                        <span class="regular">$@Html.DisplayFor(modelItem => item.OriginalPrice)</span>
+                    </del>
+                    <ins>
+                        <span class="amount">$@Html.DisplayFor(modelItem => item.SellingPrice)</span>
+                    </ins>
+                </div>
+            </div>
+            <div class="add-to-cart text-center">
+                @if (item.stock > 0)
+                {
+                    <a data-id="@item.ID" class="addTocartBtn">ADD TO CART</a>
+                    @*<a href="@Url.Action("AddToCart", "Home", new { productId = item.ID, url = "Index" })">ADD TO CART </a>*@
+                }
 
-                    </div>
-                    <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
-                </li>
+            </div>
+           
+            <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
+        </li>
 
 
 
